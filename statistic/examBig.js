@@ -9,7 +9,7 @@ module.exports = {
 	generateSheet: function(excelPathsList, {year}) {
 		const workSheet = {
 			name: '考试考务大表',
-			rows: 16,
+			rows: 17,
 			rowStart: 1,
 			cols: 15,
 			data: [
@@ -85,6 +85,31 @@ module.exports = {
 				}]
 			}
 		}
+		workSheet.data[16][1] = 0
+		workSheet.data[16][3] = 0
+		workSheet.data[16][4] = 0
+		workSheet.data[16][5] = 0
+		workSheet.data[16][6] = 0
+		workSheet.data[16][7] = 0
+		workSheet.data[16][8] = 0
+		workSheet.data[16][9] = 0
+		workSheet.data[16][10] = 0
+		workSheet.data[16][11] = 0
+		workSheet.data[16][12] = 0
+		workSheet.data[16][13] = 0
+		excelPathsList.forEach((paths, index) => {
+			const {certificate: certificatePath} = paths
+			if(!certificatePath) return
+			const row = index + 4
+			const {examIn: examInData, staffFee: staffFeeData, basicOut: basicOutData} = certificateHandler.resolve(certificatePath)
+			workSheet.data[row][1] = examInData.total.amount
+			workSheet.data[row][3] = staffFeeData.total.fee
+			workSheet.data[row][4] = basicOutData.total.total
+
+			workSheet.data[16][1] += workSheet.data[row][1]
+			workSheet.data[16][3] += workSheet.data[row][3]
+			workSheet.data[16][4] += workSheet.data[row][4]
+		})
 		return workSheet
 	},
 }

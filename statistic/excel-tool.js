@@ -14,13 +14,13 @@ module.exports = {
 				vertical: 'center'
 			},
 			font: {
-				size: 10
+				size: 12
 			}
 		})
 		workSheets.forEach(sheetOpt => {
 			const {name, rows = 1, cols = 1, rowStart = 1} = sheetOpt
 			const ws = wb.addWorksheet(name);
-			ws.cell(rowStart, 1, rows + rowStart, cols).style(wb.createStyle({
+			ws.cell(rowStart, 1, rows + rowStart - 1, cols).style(wb.createStyle({
 				border: {
 					left: {
 						style: 'thin',
@@ -46,7 +46,7 @@ module.exports = {
 			}))
 			sheetOpt.data && sheetOpt.data.forEach((r, ri) => {
 				r.forEach((c, ci) => {
-					Number(c)? ws.cell(ri + 1, ci + 1).number(Number(c)).style(myStyle): ws.cell(ri + 1, ci + 1).string(c).style(myStyle)
+					!Number.isNaN(Number(c))? ws.cell(ri + 1, ci + 1).number(Number(c)).style(myStyle): ws.cell(ri + 1, ci + 1).string(c).style(myStyle)
 				})
 			})
 			sheetOpt.options && sheetOpt.options["!merges"] && sheetOpt.options["!merges"].forEach(merge => {

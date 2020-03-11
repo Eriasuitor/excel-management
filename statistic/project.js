@@ -6,7 +6,7 @@ module.exports = {
 	 * file maybe deficient
 	 * @param {{deposit: string}[]} excelPathList 
 	 */
-	generateSheet: function(excelPathsList, {year}) {
+	generateSheet: function(excelPathsList, {year, foundSheet}) {
 		const workSheet = {
 			name: '项目表',
 			rows: 18,
@@ -62,13 +62,22 @@ module.exports = {
 				}, {
 					s: {c: 6, r: 2},
 					e: {c: 6, r: 3}
+				}, {
+					s: {c: 3, r: 17},
+					e: {c: 5, r: 17}
+				}, {
+					s: {c: 3, r: 18},
+					e: {c: 5, r: 18}
+				}, {
+					s: {c: 3, r: 19},
+					e: {c: 5, r: 19}
 				}],
 				'!cols': [{
-					wpx: 4
+					wpx: 5
 				}, {
-					wpx: 4
+					wpx: 5
 				}, {
-					wpx: 4
+					wpx: 5
 				}, {
 					wpx: 12
 				}, {
@@ -92,11 +101,16 @@ module.exports = {
 		workSheet.data[16][3] = 0
 		workSheet.data[16][4] = 0
 		workSheet.data[16][5] = 0
+		workSheet.data[18][3] = 0
 		for(let i = 4; i < 16; i++) {
 			workSheet.data[16][3] += workSheet.data[i][3] || 0
 			workSheet.data[16][4] += workSheet.data[i][4] || 0
 			workSheet.data[16][5] += workSheet.data[i][5] || 0
+
+			workSheet.data[18][3] += foundSheet.data[13][i] || 0
 		}
+		workSheet.data[17][3] = foundSheet.data[2][4] + foundSheet.data[5][4] + foundSheet.data[8][4] + foundSheet.data[12][4]
+		workSheet.data[19][3] = workSheet.data[16][5] + workSheet.data[17][3] + workSheet.data[18][3]
 		return workSheet
 	},
 }
