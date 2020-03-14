@@ -1,1 +1,0 @@
-require('./statistic/index').generateAnnualReport(2020)
