@@ -37,6 +37,34 @@
     margin-left: 20px;
 }
 
+.App-main-table{
+    margin-top: 12px;
+}
+
+.App-layout-action {
+
+}
+
+.App-layout-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.App-layout-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.App-vice-font {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.App-small-font {
+    font-size: 12px !important;
+}
+
 .App-error {
     color: red;
 }

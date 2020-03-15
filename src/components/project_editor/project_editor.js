@@ -10,7 +10,6 @@ class Component extends React.Component {
   formRef = React.createRef();
 
   render() {
-    console.log(this.props)
     return (
       <Form
         name="validate_other"
@@ -18,9 +17,7 @@ class Component extends React.Component {
         wrapperCol={{ span: 14 }}
         ref={this.props.formRef}
         onFinish={this.props.onFinish}
-        initialValues={{
-
-        }}
+        initialValues={this.props.project || {}}
       >
         <Form.Item
           name="name"

@@ -9,3 +9,12 @@ const envMapper = {
 export function env2HumanReadable(env) {
 	return envMapper[env] || '环境错误'
 }
+
+const parentTypeMapper = {
+	income: '收入',
+	expense: '支出'
+}
+
+export function parentType2HumanReadable(parentType) {
+	return parentTypeMapper[parentType] || '无效'
+}

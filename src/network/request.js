@@ -100,3 +100,27 @@ export function addProject(project, statusHandler) {
 export function queryProjects(query) {
 	return get('/projects', query)
 }
+
+export function updateProject(projectId, project) {
+	return put(`/projects/${projectId}`, project)
+}
+
+export function removeProject(projectId) {
+	return remove(`/projects/${projectId}`)
+}
+
+export function addLiquidityType(projectId, liquidityType, statusHandler) {
+	return post(`/projects/${projectId}/liquidity-types`, liquidityType, undefined, {
+		409: () => `已存在同名的收支类型`
+	})
+}
+
+export function updateLiquidityType(liquidityTypeId, liquidityType) {
+	return put(`/projects/all/liquidity-types/${liquidityTypeId}`, liquidityType, undefined, {
+		409: () => `该收支类型已经存在`
+	})
+}
+
+export function removeLiquidityType(liquidityTypeId) {
+	return remove(`/projects/all/liquidity-types/${liquidityTypeId}`)
+}

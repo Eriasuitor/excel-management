@@ -33,7 +33,8 @@ class App extends React.Component {
 
   render() {
     return (
-      <Layout>
+      <Layout style={{
+      }}>
         <Header className="header">
           <div className="logo" style={{
             width: "120px",
@@ -98,18 +99,16 @@ class App extends React.Component {
               </SubMenu>
             </Menu>
           </Sider>
-          <Layout style={{ padding: '0 24px 24px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
+          <Layout style={{ 
+            padding: '24px' ,
+            height: 'calc(100vh - 64px)',
+            }}>
             <Content
               style={{
                 background: '#fff',
                 padding: 24,
                 margin: 0,
-                minHeight: 280,
+                overflow: 'scroll'
               }}
             >
               <Switch>
