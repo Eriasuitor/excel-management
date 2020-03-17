@@ -138,8 +138,8 @@ export function updateFinancialSource(financialSourceId, financialSource) {
 	})
 }
 
-export function queryFinancialSource() {
-	return get('/financial-sources')
+export function queryFinancialSource(query) {
+	return get('/financial-sources', query)
 }
 
 export function removeFinancialSource(financialSourceId) {
@@ -163,4 +163,28 @@ export function updateDocument(documentId, document) {
 
 export function removeDocument(documentId) {
 	return remove(`/documents/${documentId}`)
+}
+
+export function addOrUpdateFinancialSourceTracker(financialSourceId, financialSourceTracker) {
+	return post(`/financial-sources/${financialSourceId}/trackers`, financialSourceTracker)
+}
+
+export function queryFinancialSourceTracker(query) {
+	return get(`/financial-sources/all/trackers`, query).then(({count, rows}) => {
+		rows.forEach(row => {
+			row.monthlyCarryoverAmount = row.monthlyCarryoverAmount / 100
+			row.income = row.income / 100
+			row.expense = row.expense / 100
+			row.balance = row.balance / 100
+		})
+		return {count, rows}
+	})
+}
+
+export function removeFinancialSourceTracker(financialSourceId) {
+	return remove(`/financial-sources/${financialSourceId}`)
+}
+
+export function getFinancialSourceTrackerAnnualCounter(query) {
+	return get(`/financial-sources/all/trackers/annual-counter`, query)
 }

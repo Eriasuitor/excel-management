@@ -32,8 +32,8 @@ class Component extends React.Component {
   async componentDidMount() {
     try {
       const [{ rows: ps }, { rows: fss }] = await Promise.all([
-        Request.queryProjects({ pageSize: 10000 }),
-        Request.queryFinancialSource({ pageSize: 10000 })
+        Request.queryProjects({ pageSize: 100000000 }),
+        Request.queryFinancialSource({ pageSize: 100000000 })
       ])
       this.setState({ projects: ps, financialSources: fss, projectId: (this.props.document || {}).projectId})
     } catch (error) {
