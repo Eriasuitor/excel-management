@@ -311,7 +311,7 @@ class Container extends React.Component {
 										</Row> : <Empty
 											image={empty}
 											imageStyle={{
-												height: 30,
+												height: 56,
 											}}
 											description={
 												<span style={{

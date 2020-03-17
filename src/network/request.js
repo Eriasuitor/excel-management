@@ -148,7 +148,9 @@ export function removeFinancialSource(financialSourceId) {
 
 export function queryDocuments(query) {
 	return get(`/documents`, query).then(({ count, rows }) => {
-		rows.amount /= 100
+		rows.forEach(row => {
+			row.amount = row.amount / 100
+		})
 		return { count, rows }
 	})
 }
@@ -187,4 +189,28 @@ export function removeFinancialSourceTracker(financialSourceId) {
 
 export function getFinancialSourceTrackerAnnualCounter(query) {
 	return get(`/financial-sources/all/trackers/annual-counter`, query)
+}
+
+
+export function queryFinancialFlow(query) {
+	return get(`/financial-sources/all/flows`, query).then(({ count, rows }) => {
+		rows.forEach(row => {
+			row.incomeAmount = row.incomeAmount / 100
+			row.expenseAmount = row.expenseAmount / 100
+			row.balance = row.balance / 100
+		})
+		return { count, rows }
+	})
+}
+
+export function addFinancialFlow(financialSourceId, financialFlow) {
+	return post(`/financial-sources/${financialSourceId}/flows`, financialFlow)
+}
+
+export function updateFinancialFlow(financialFlowId, financialFlow) {
+	return put(`/financial-sources/all/flows/${financialFlowId}`, financialFlow)
+}
+
+export function removeFinancialFlow(financialFlowId) {
+	return remove(`/financial-sources/all/flows/${financialFlowId}`)
 }

@@ -219,7 +219,6 @@ class Container extends React.Component {
 	}
 
 	changeDate(date) {
-		console.log(date.format('YYYY MM'))
 		this.queryDocuments({page: 1, ...(date? {generatedAtFrom: date.format('YYYY-MM'), generatedAtTo: moment(date).add(1, 'month').format('YYYY-MM')}: {}) })
 	}
 
