@@ -1,11 +1,11 @@
 import React from 'react';
-import { Form, Select, InputNumber, Input, DatePicker, Radio, Slider, Button, Upload, Icon, Rate, Checkbox, Row, Col, } from 'antd';
-import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+import { Form, Input} from 'antd';
 import { withRouter } from 'react-router'
 
-const { Option } = Select;
-
 class Component extends React.Component {
+
+  formRef = React.createRef();
+
   render() {
     return (
       <Form
@@ -14,24 +14,24 @@ class Component extends React.Component {
         wrapperCol={{ span: 14 }}
         ref={this.props.formRef}
         onFinish={this.props.onFinish}
-        initialValues={this.props.project || {}}
+        initialValues={this.props.financialSource || {}}
       >
         <Form.Item
           name="name"
-          label="项目名称"
+          label="资金渠道名称"
           rules={[
-            { required: true, message: '请输入项目名称' },
-            { max: 32, message: '项目名称最长为32个字符' }
+            { required: true, message: '请输入资金渠道名称' },
+            { max: 32, message: '资金渠道名称最长为32个字符' }
           ]}
         >
-          <Input placeholder='请输入项目名称' />
+          <Input placeholder='请输入资金渠道名称' />
         </Form.Item>
 
         <Form.Item
           name="desc"
           label="描述"
           rules={[
-            { max: 255, message: '项目名称最长为255个字符' }
+            { max: 255, message: '资金渠道名称最长为255个字符' }
           ]}
         >
           <Input.TextArea autoSize />

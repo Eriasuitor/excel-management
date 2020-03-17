@@ -7,8 +7,6 @@ const { Option } = Select;
 
 class Component extends React.Component {
 
-  formRef = React.createRef();
-
   render() {
     return (
       <Form

@@ -48,11 +48,33 @@ class Container extends React.Component {
 						onCancel={e  => e.stopPropagation()}
 						title={`你确定要删除项目“${project.name}”吗？`}
 						icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+						
 						onConfirm={this.removeProject.bind(this, project.id)}
 					>
-						<Button title="删除此项目" className="App-small-font" type="primary" shape='circle' icon={<DeleteOutlined />} size="small"></Button>
+						<Button
+						 title="删除此项目" 
+						 className="App-small-font" 
+						 type="primary" 
+						 shape='circle' 
+						 style={{
+							marginRight: '4px'
+						}}
+						 icon={<DeleteOutlined />}
+						  size="small"
+						  ></Button>
 					</Popconfirm>
-
+					<Button
+						className="App-small-font"
+						type="primary"
+						shape="circle"
+						icon={<PlusOutlined />}
+						size="small"
+						title="添加收支类型"
+						onClick={this.showLiquidityTypeEditor.bind(this, {
+							projectName: project.name,
+							projectId: project.id
+						})}
+					></Button>
 				</span>
 			),
 		},

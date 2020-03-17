@@ -1,5 +1,6 @@
 import config from '../config/index'
 import { message } from 'antd'
+import document from '../containers/document/document'
 
 const diffStatusAction = {
 	500: () => {
@@ -31,7 +32,7 @@ export function responseStatusHandle(res, history, statusHandler = {}, isJSON = 
 	if ([204, 205].includes(res.status)) {
 		return null
 	}
-	if(isJSON) {
+	if (isJSON) {
 		return res.json()
 	}
 	return res.body
@@ -46,7 +47,7 @@ export function handleError(err) {
 export async function get(url, query = {}, history, statusHandler, isJSON = true) {
 	Object.keys(query).forEach(key => (query[key] === undefined || query[key].length === 0) && delete query[key])
 	let body = await fetch(`${config.host}${url}?${Object.keys(query).map(key => {
-		if( Array.isArray(query[key])) {
+		if (Array.isArray(query[key])) {
 			return query[key].map(value => `${key}[]=${value}`).join('&')
 		}
 		return `${key}=${query[key]}`
@@ -123,4 +124,43 @@ export function updateLiquidityType(liquidityTypeId, liquidityType) {
 
 export function removeLiquidityType(liquidityTypeId) {
 	return remove(`/projects/all/liquidity-types/${liquidityTypeId}`)
+}
+
+export function addFinancialSource(financialSource) {
+	return post('/financial-sources', financialSource, undefined, {
+		409: () => `已存在名为“${financialSource.name}”的资金渠道`
+	})
+}
+
+export function updateFinancialSource(financialSourceId, financialSource) {
+	return put(`/financial-sources/${financialSourceId}`, financialSource, undefined, {
+		409: () => `已存在或曾经存在名为“${financialSource.name}”的资金渠道`
+	})
+}
+
+export function queryFinancialSource() {
+	return get('/financial-sources')
+}
+
+export function removeFinancialSource(financialSourceId) {
+	return remove(`/financial-sources/${financialSourceId}`)
+}
+
+export function queryDocuments(query) {
+	return get(`/documents`, query).then(({ count, rows }) => {
+		rows.amount /= 100
+		return { count, rows }
+	})
+}
+
+export function addDocument(document) {
+	return post('/documents', document)
+}
+
+export function updateDocument(documentId, document) {
+	return put(`/documents/${documentId}`, document)
+}
+
+export function removeDocument(documentId) {
+	return remove(`/documents/${documentId}`)
 }
