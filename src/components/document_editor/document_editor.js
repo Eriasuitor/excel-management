@@ -90,7 +90,17 @@ class Component extends React.Component {
           name="liquidityTypeList"
           label="消费类型"
           key="liquidityType"
-          rules={[{ required: true, message: '请选择消费类型' }]}
+          rules={[
+            { required: true, message: '请选择消费类型'},
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                if (!value || value.length !== 2) {
+                  return Promise.reject('请选择消费类型');
+                }
+                return Promise.resolve()
+              },
+            })
+          ]}
         >
           <Cascader
             placeholder={this.state.projectId ? '请选择消费类型' : '请先指定项目'}

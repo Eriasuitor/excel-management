@@ -17,6 +17,12 @@ class Container extends React.Component {
 			key: 'name'
 		},
 		{
+			title: '初始金额',
+			dataIndex: 'initialStock',
+			key: 'initialStock',
+			render: v => `¥ ${v / 100}`,
+		},
+		{
 			title: '描述',
 			dataIndex: 'desc',
 			render: desc => desc || '无',
@@ -46,12 +52,13 @@ class Container extends React.Component {
 						onClick={this.showFinancialSourceEditor.bind(this, {
 							id: financialSource.id,
 							name: financialSource.name,
-							desc: financialSource.desc
+							desc: financialSource.desc,
+							initialStock: financialSource.initialStock / 100
 						})}
 					></Button>
 					<Popconfirm
-						onClick={e  => e.stopPropagation()}
-						onCancel={e  => e.stopPropagation()}
+						onClick={e => e.stopPropagation()}
+						onCancel={e => e.stopPropagation()}
 						title={`你确定要删除资金渠道“${financialSource.name}”吗？`}
 						icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
 						onConfirm={this.removeFinancialSource.bind(this, financialSource.id)}
@@ -87,7 +94,7 @@ class Container extends React.Component {
 			this.setState({
 				loading: true
 			})
-			const {pageSize}  = this.state.pagination
+			const { pageSize } = this.state.pagination
 			const { count, rows } = await Request.queryFinancialSource({
 				page, pageSize
 			})
@@ -106,7 +113,7 @@ class Container extends React.Component {
 	}
 
 	handleTableChange = (pagination, filters, sorter) => {
-		console.log({pagination, filters, sorter})
+		console.log({ pagination, filters, sorter })
 		this.setState({
 			pagination
 		})
@@ -123,6 +130,7 @@ class Container extends React.Component {
 			this.setState({
 				saving: true
 			})
+			financialSource.initialStock && (financialSource.initialStock = Math.round(financialSource.initialStock * 100))
 			if (this.state.editingFinancialSource.id) {
 				await Request.updateFinancialSource(this.state.editingFinancialSource.id, financialSource)
 			} else {

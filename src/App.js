@@ -7,7 +7,6 @@ import Document from './containers/document/document';
 import Project from './containers/project/project';
 import FinancialSource from './containers/financial_source/financial_source';
 import FinancialSourceTracker from './containers/financial_source_tracker/financial_source_tracker';
-import FinancialFlow from './containers/financial_flow/financial_flow';
 import config from './config/index';
 import * as Request from './network/request'
 import * as Translator from './util/translator'
@@ -85,7 +84,6 @@ class App extends React.Component {
                   </span>
                 }
               >
-                <Menu.Item key="2" onClick={() => this.props.history.push('/financial-flow')}>现金流水管理</Menu.Item>
                 <Menu.Item key="3" onClick={() => this.props.history.push('/trackers')}>银行存款变动管理</Menu.Item>
               </SubMenu>
               <SubMenu
@@ -119,7 +117,6 @@ class App extends React.Component {
                 <Route path="/projects" component={Project} />
                 <Route path="/financial-sources" component={FinancialSource} />
                 <Route path="/trackers" component={FinancialSourceTracker} />
-                <Route path="/financial-flow" component={FinancialFlow} />
               </Switch>
             </Content>
           </Layout>

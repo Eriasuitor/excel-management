@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input} from 'antd';
+import { Form, Input, InputNumber} from 'antd';
 import { withRouter } from 'react-router'
 
 class Component extends React.Component {
@@ -13,7 +13,13 @@ class Component extends React.Component {
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 14 }}
         ref={this.props.formRef}
-        onFinish={this.props.onFinish}
+        onFinish={(value) => {
+          console.log(this.props.financialSource)
+          if(this.props.financialSource && this.props.financialSource.id) {
+            delete value.initialStock
+          }
+          this.props.onFinish(value)
+        }}
         initialValues={this.props.financialSource || {}}
       >
         <Form.Item
@@ -25,6 +31,20 @@ class Component extends React.Component {
           ]}
         >
           <Input placeholder='请输入资金渠道名称' />
+        </Form.Item>
+        
+        <Form.Item
+          label="初始余额"
+          name="initialStock"
+          rules={[{ required: true, message: '请输入初始余额' }]}
+        >
+          <Form.Item
+            name="initialStock"
+            noStyle
+          >
+            <InputNumber style={{ width: '34%' }} min={0} step={0.01} precision={2} disabled={this.props.financialSource && this.props.financialSource.id}></InputNumber>
+          </Form.Item>
+            <span className="ant-form-text">元</span>
         </Form.Item>
 
         <Form.Item

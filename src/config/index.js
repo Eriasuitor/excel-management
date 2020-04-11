@@ -5,7 +5,7 @@ const configAudit = require('./config_audit')
 const configDev = require('./config_dev')
 const configLocal = require('./config_local')
 const merge = require('deepmerge')
-const NodeEnv = {Prod: 'prod', Test: 'test', Dev: 'dev', Local: 'local', Audit: 'audit'}
+const NodeEnv = {Production: 'prod', Test: 'test', Development: 'dev', Local: 'local', Audit: 'audit'}
 
 const env = NodeEnv.Local
 

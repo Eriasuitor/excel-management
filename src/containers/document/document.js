@@ -45,7 +45,7 @@ class Container extends React.Component {
 			title: '金额',
 			dataIndex: 'amount',
 			key: 'amount',
-			render: amount => `¥ ${(amount / 100).toFixed(2)}`
+			render: amount => `¥ ${amount}`
 		},
 		{
 			title: '发生时间',
@@ -177,7 +177,7 @@ class Container extends React.Component {
 				saving: true
 			})
 			document.liquidityTypeId = document.liquidityTypeList[1]
-			document.amount *= 100
+			document.amount  = Math.round(document.amount * 100)
 			delete document.liquidityTypeList
 			if (this.state.editingDocument.id) {
 				await Request.updateDocument(this.state.editingDocument.id, document)
