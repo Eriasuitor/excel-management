@@ -15,27 +15,26 @@ class Component extends React.Component {
     cascadeOptions: [{
       label: '收入',
       value: 'income',
-      children: [{
-        value: 'hangzhou',
-        label: 'Hangzhou',
-      }]
+      children: []
     }, {
       label: '支出',
       value: 'expense',
-      children: [{
-        value: 'hangzhou',
-        label: 'Hangzhou',
-      }]
+      children: []
     }]
   }
 
   async componentDidMount() {
     try {
-      const [{ rows: ps }, { rows: fss }] = await Promise.all([
+      const promises = [
         Request.queryProjects({ pageSize: 100000000 }),
         Request.queryFinancialSource({ pageSize: 100000000 })
-      ])
+      ]
+      const [{ rows: ps }, { rows: fss }] = await Promise.all(promises)
+      this.state.projects = ps
       this.setState({ projects: ps, financialSources: fss, projectId: (this.props.document || {}).projectId})
+      if(this.props.document && this.props.document.projectId) {
+        this.handleProjectChange(this.props.document.projectId)
+      }
     } catch (error) {
 
     }

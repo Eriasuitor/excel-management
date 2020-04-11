@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Modal, Button, Empty, message, Popconfirm, DatePicker } from 'antd';
+import { Table, Modal, Button, Empty, message, Popconfirm, DatePicker, Select } from 'antd';
 import './document.css'
 import empty from '../../empty.svg';
 import { withRouter } from 'react-router'
@@ -10,6 +10,25 @@ import * as moment from 'moment'
 import { PlusOutlined, DeleteOutlined, EditOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 class Container extends React.Component {
+	state = {
+		showDocumentEditor: false,
+		saving: false,
+		loading: false,
+		documents: [],
+		projects: [],
+		editingDocument: {},
+		counter: 1,
+		pagination: {
+			current: 1,
+			pageSize: 2,
+			total: 100,
+		},
+		financialSources: [],
+		queryCondition: {
+
+		}
+	}
+
 	columns = [
 		{
 			title: '项目',
@@ -83,7 +102,7 @@ class Container extends React.Component {
 							projectId: document.project.id,
 							financialSourceId: document.financialSource.id,
 							liquidityTypeList: [document.liquidityType.parentType, document.liquidityType.id],
-							amount: document.amount / 100,
+							amount: document.amount,
 							generatedAt: moment(document.generatedAt)
 						})}
 					></Button>
@@ -111,20 +130,6 @@ class Container extends React.Component {
 		},
 	];
 
-	state = {
-		showDocumentEditor: false,
-		saving: false,
-		loading: false,
-		documents: [],
-		editingDocument: {},
-		counter: 1,
-		pagination: {
-			current: 1,
-			pageSize: 2,
-			total: 100,
-		}
-	}
-
 	handleOk = e => {
 		this.state.formRef.current.submit()
 	};
@@ -136,14 +141,13 @@ class Container extends React.Component {
 	};
 
 	showDocumentEditor(document, e) {
-		console.log({ document, e })
 		if (!e) {
 			e = document
 			document = {}
 		}
 		this.setState({
 			formRef: React.createRef(),
-			counter: this.state.count,
+			counter: this.state.counter + 1,
 			editingDocument: document,
 			showDocumentEditor: true,
 		})
@@ -168,7 +172,7 @@ class Container extends React.Component {
 		this.setState({
 			pagination
 		})
-		this.queryDocuments({page: pagination.current})
+		this.queryDocuments({ page: pagination.current })
 	};
 
 	async onFinish(document) {
@@ -177,7 +181,7 @@ class Container extends React.Component {
 				saving: true
 			})
 			document.liquidityTypeId = document.liquidityTypeList[1]
-			document.amount  = Math.round(document.amount * 100)
+			document.amount = Math.round(document.amount * 100)
 			delete document.liquidityTypeList
 			if (this.state.editingDocument.id) {
 				await Request.updateDocument(this.state.editingDocument.id, document)
@@ -218,12 +222,41 @@ class Container extends React.Component {
 		}
 	}
 
-	changeDate(date) {
-		this.queryDocuments({page: 1, ...(date? {generatedAtFrom: date.format('YYYY-MM'), generatedAtTo: moment(date).add(1, 'month').format('YYYY-MM')}: {}) })
+	async queryProjects() {
+		try {
+			const { rows: projects } = await Request.queryProjects({ pageSize: Number.MAX_SAFE_INTEGER })
+			this.setState({
+				projects
+			})
+		} catch (error) {
+
+		} finally {
+
+		}
+	}
+
+	async queryFinancialSources() {
+		try {
+			const { rows: financialSources } = await Request.queryFinancialSource({ pageSize: Number.MAX_SAFE_INTEGER })
+			this.setState({
+				financialSources
+			})
+		} catch (error) {
+
+		} finally {
+
+		}
+	}
+
+	changeQueryCondition(query) {
+		Object.assign(this.state.queryCondition, query)
+		this.queryDocuments({ page: 1, ...this.state.queryCondition })
 	}
 
 	componentDidMount() {
 		this.queryDocuments()
+		this.queryProjects()
+		this.queryFinancialSources()
 	}
 
 	render() {
@@ -234,7 +267,63 @@ class Container extends React.Component {
 						<span className="App-layout-title" style={{
 							marginRight: '12px'
 						}}>凭证列表</span>
-						<DatePicker bordered={false} placeholder="点击选择月份" onChange={this.changeDate.bind(this)} picker="month" />
+						<DatePicker bordered={false} placeholder="发生时间" onChange={
+							(date) => this.changeQueryCondition.call(this, date ? {
+								generatedAtFrom: date.format('YYYY-MM'),
+								generatedAtTo: moment(date).add(1, 'month').format('YYYY-MM')
+							} : {
+									generatedAtFrom: undefined,
+									generatedAtTo: undefined
+								})
+						} picker="month" />
+						<Select
+							showSearch
+							allowClear
+							bordered={false} 
+							style={{ width: 200 }}
+							placeholder="所属项目"
+							optionFilterProp="children"
+							onChange={
+								(projectId) => this.changeQueryCondition.call(this, projectId ? {
+									projectId
+								} : {
+										projectId: undefined
+									})
+							}
+							filterOption={(input, option) =>
+								option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+							}
+						>
+							{
+								this.state.projects.map(project =>
+								<Select.Option key={project.id} value={project.id}>{project.name}</Select.Option>
+								)
+							}
+						</Select>
+						<Select
+							showSearch
+							allowClear
+							bordered={false} 
+							style={{ width: 200 }}
+							placeholder="资金渠道"
+							optionFilterProp="children"
+							onChange={
+								(financialSourceId) => this.changeQueryCondition.call(this, financialSourceId ? {
+									financialSourceId
+								} : {
+									financialSourceId: undefined
+									})
+							}
+							filterOption={(input, option) =>
+								option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+							}
+						>
+							{
+								this.state.financialSources.map(fs =>
+								<Select.Option key={fs.id} value={fs.id}>{fs.name}</Select.Option>
+								)
+							}
+						</Select>
 					</div>
 					<Button
 						type="primary"
@@ -253,7 +342,7 @@ class Container extends React.Component {
 						<Button key="submit" type="primary" loading={this.state.saving} onClick={this.handleOk}>保存</Button>,
 					]}
 				>
-					<DocumentEditor key={this.state.count} formRef={this.state.formRef} document={this.state.editingDocument} onFinish={this.onFinish.bind(this)} />
+					<DocumentEditor key={this.state.counter} formRef={this.state.formRef} document={this.state.editingDocument} onFinish={this.onFinish.bind(this)} />
 				</Modal>
 
 				<Table
