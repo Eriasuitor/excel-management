@@ -26,7 +26,7 @@ class Container extends React.Component {
 	}
 
 	async componentDidMount() {
-		this.queryFinancialSourceTracker(this.state.date.get('year'), this.state.date.get('month') + 1)
+		this.queryFinancialSourceTracker(this.state.date.get('year'), this.state.date.get('month'))
 		try {
 			const { rows: financialSources } = await Request.queryFinancialSource({ pageSize: 100000000 })
 			this.setState({ financialSources })
@@ -35,7 +35,7 @@ class Container extends React.Component {
 		}
 	}
 
-	async queryFinancialSourceTracker(year = this.state.date.get('year'), month = this.state.date.get('month') + 1) {
+	async queryFinancialSourceTracker(year = this.state.date.get('year'), month = this.state.date.get('month')) {
 		try {
 			this.setState({
 				loadingTracker: true
@@ -59,7 +59,7 @@ class Container extends React.Component {
 		this.setState({
 			date
 		})
-		this.queryFinancialSourceTracker(date.get('year'), date.get('month') + 1)
+		this.queryFinancialSourceTracker(date.get('year'), date.get('month'))
 	}
 
 	async showEditor(row, e) {
@@ -149,16 +149,16 @@ class Container extends React.Component {
 									<div>{
 										monthlyStatistics ? <Row gutter={[4, 24]}>
 											<Col span={6}>
-												<Statistic title="上月结转" value={monthlyStatistics.monthlyCarryoverAmount / 100} suffix="元" />
+												<Statistic title="上月结转" value={(monthlyStatistics.monthlyCarryoverAmount / 100).toFixed(2)} suffix="元" />
 											</Col>
 											<Col span={6}>
-												<Statistic title="收入" value={monthlyStatistics.income / 100} suffix="元" />
+												<Statistic title="收入" value={(monthlyStatistics.income / 100).toFixed(2)} suffix="元" />
 											</Col>
 											<Col span={6}>
-												<Statistic title="支出" value={monthlyStatistics.expense / 100} suffix="元" />
+												<Statistic title="支出" value={(monthlyStatistics.expense / 100).toFixed(2)} suffix="元" />
 											</Col>
 											<Col span={6}>
-												<Statistic title="余额" value={monthlyStatistics.balance / 100} suffix="元" />
+												<Statistic title="余额" value={(monthlyStatistics.balance / 100).toFixed(2)} suffix="元" />
 											</Col>
 										</Row>
 											: <div />
