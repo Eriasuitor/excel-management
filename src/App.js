@@ -84,7 +84,7 @@ class App extends React.Component {
                   </span>
                 }
               >
-                <Menu.Item key="3" onClick={() => this.props.history.push('/trackers')}>银行存款变动管理</Menu.Item>
+                <Menu.Item key="3" onClick={() => this.props.history.push('/trackers')}>资金变动管理</Menu.Item>
               </SubMenu>
               <SubMenu
                 key="sub3"

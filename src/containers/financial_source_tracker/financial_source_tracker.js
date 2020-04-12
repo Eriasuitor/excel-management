@@ -149,16 +149,16 @@ class Container extends React.Component {
 									<div>{
 										monthlyStatistics ? <Row gutter={[4, 24]}>
 											<Col span={6}>
-												<Statistic title="上月结转" value={monthlyStatistics.monthlyCarryoverAmount.toFixed(2)} suffix="元" />
+												<Statistic title="上月结转" value={monthlyStatistics.monthlyCarryoverAmount / 100} suffix="元" />
 											</Col>
 											<Col span={6}>
-												<Statistic title="收入" value={monthlyStatistics.income.toFixed(2)} suffix="元" />
+												<Statistic title="收入" value={monthlyStatistics.income / 100} suffix="元" />
 											</Col>
 											<Col span={6}>
-												<Statistic title="支出" value={monthlyStatistics.expense.toFixed(2)} suffix="元" />
+												<Statistic title="支出" value={monthlyStatistics.expense / 100} suffix="元" />
 											</Col>
 											<Col span={6}>
-												<Statistic title="余额" value={monthlyStatistics.balance.toFixed(2)} suffix="元" />
+												<Statistic title="余额" value={monthlyStatistics.balance / 100} suffix="元" />
 											</Col>
 										</Row>
 											: <div />
