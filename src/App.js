@@ -7,6 +7,7 @@ import Document from './containers/document/document';
 import Project from './containers/project/project';
 import FinancialSource from './containers/financial_source/financial_source';
 import FinancialSourceTracker from './containers/financial_source_tracker/financial_source_tracker';
+import Export from './containers/export/export';
 import config from './config/index';
 import * as Request from './network/request'
 import * as Translator from './util/translator'
@@ -96,7 +97,7 @@ class App extends React.Component {
               >
                 <Menu.Item key="3_1" onClick={() => this.props.history.push('/projects')}>项目管理</Menu.Item>
                 <Menu.Item key="3_2" onClick={() => this.props.history.push('/financial-sources')}>资金渠道管理</Menu.Item>
-                <Menu.Item key="3_3" onClick={() => this.props.history.push('/login')}>导出</Menu.Item>
+                <Menu.Item key="3_3" onClick={() => this.props.history.push('/exports')}>导出</Menu.Item>
               </SubMenu>
             </Menu>
           </Sider>
@@ -117,6 +118,7 @@ class App extends React.Component {
                 <Route path="/projects" component={Project} />
                 <Route path="/financial-sources" component={FinancialSource} />
                 <Route path="/trackers" component={FinancialSourceTracker} />
+                <Route path="/exports" component={Export} />
               </Switch>
             </Content>
           </Layout>

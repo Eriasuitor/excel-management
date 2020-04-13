@@ -11,6 +11,7 @@
     "babel-plugin-import": "^1.13.0",
     "customize-cra": "^0.9.1",
     "deepmerge": "^4.2.2",
+    "downloadjs": "^1.4.7",
     "react": "^16.13.0",
     "react-app-rewired": "^2.1.5",
     "react-dom": "^16.13.0",

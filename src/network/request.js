@@ -27,13 +27,16 @@ export function responseNot2StatusHandle(res, history, statusHandler = {}) {
 	}
 }
 
-export function responseStatusHandle(res, history, statusHandler = {}, isJSON = true) {
+export function responseStatusHandle(res, history, statusHandler = {}, {isJSON = true, getOrigin = false} = {}) {
 	responseNot2StatusHandle(res, history, statusHandler)
 	if ([204, 205].includes(res.status)) {
 		return null
 	}
 	if (isJSON) {
 		return res.json()
+	}
+	if(getOrigin) {
+		return res
 	}
 	return res.body
 }
@@ -68,14 +71,14 @@ export async function put(url, data = {}, history, statusHandler) {
 	return body
 }
 
-export async function post(url, data = {}, history, statusHandler) {
+export async function post(url, data = {}, history, statusHandler, {isJSON = true, getOrigin} = {}) {
 	let body = await fetch(`${config.host}${url}`, {
 		body: JSON.stringify(data),
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		}
-	}).then(res => responseStatusHandle(res, history, statusHandler)).catch(handleError)
+	}).then(res => responseStatusHandle(res, history, statusHandler, {isJSON, getOrigin})).catch(handleError)
 	return body
 }
 
@@ -205,4 +208,8 @@ export function updateFinancialFlow(financialFlowId, financialFlow) {
 
 export function removeFinancialFlow(financialFlowId) {
 	return remove(`/financial-sources/all/flows/${financialFlowId}`)
+}
+
+export function exportReport(date) {
+	return post('/exports', date, undefined, undefined, {getOrigin: true, isJSON: false})
 }
