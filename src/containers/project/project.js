@@ -93,8 +93,8 @@ class Container extends React.Component {
 		projectEditorCounter: 1,
 		pagination: {
 			current: 1,
-			pageSize: 2,
-			total: 100,
+			pageSize: 10,
+			total: 0,
 		}
 	}
 
