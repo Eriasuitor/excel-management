@@ -1,4 +1,4 @@
 module.exports = {
-	host: 'https://api.hema-studio.online/a1.0.0',
+	host: 'http://localhost:10086',
 	env: '审核环境'
 }
