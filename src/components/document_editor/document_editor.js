@@ -119,14 +119,14 @@ class Component extends React.Component {
         </Form.Item>
         <Form.Item
           name="liquidityTypeList"
-          label="消费类型"
+          label="收支类型"
           key="liquidityType"
           rules={[
-            { required: true, message: '请选择消费类型' },
+            { required: true, message: '请选择收支类型' },
             ({ getFieldValue }) => ({
               validator(rule, value) {
                 if (!value || value.length !== 2) {
-                  return Promise.reject('请选择消费类型');
+                  return Promise.reject('请选择收支类型');
                 }
                 return Promise.resolve()
               },
@@ -134,7 +134,7 @@ class Component extends React.Component {
           ]}
         >
           <Cascader
-            placeholder={this.state.projectId ? '请选择消费类型' : '请先指定项目'}
+            placeholder={this.state.projectId ? '请选择收支类型' : '请先指定项目'}
             disabled={!this.state.projectId}
             options={this.state.cascadeOptions}
           />

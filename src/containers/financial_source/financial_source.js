@@ -197,6 +197,7 @@ class Container extends React.Component {
 					visible={this.state.showFinancialSourceEditor}
 					title={`${this.state.editingFinancialSource.id && '编辑' || '新增'}资金渠道`}
 					onOk={this.handleOk}
+					maskClosable={false}
 					onCancel={this.handleCancel}
 					footer={[
 						<Button key="back" onClick={this.handleCancel}>取消</Button>,

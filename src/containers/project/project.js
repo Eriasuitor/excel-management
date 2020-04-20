@@ -337,6 +337,7 @@ class Container extends React.Component {
 					visible={this.state.showProjectEditor}
 					title={`${this.state.editingProject.id && '编辑' || '新增'}项目`}
 					onOk={this.handleOk}
+					maskClosable={false}
 					onCancel={this.handleCancel}
 					footer={[
 						<Button key="back" onClick={this.handleCancel}>取消</Button>,
@@ -349,6 +350,7 @@ class Container extends React.Component {
 					visible={this.state.showLiquidityTypeEditor}
 					title={`${this.state.editingLiquidityType.parentType && '编辑' || '新增'}收支类型`}
 					onOk={() => { this.state.liquidityTypeFormRef.current.submit() }}
+					maskClosable={false}
 					onCancel={this.cancelLiquidityEditorModel.bind(this)}
 					footer={[
 						<Button key="back" onClick={this.cancelLiquidityEditorModel.bind(this)}>取消</Button>,

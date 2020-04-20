@@ -336,6 +336,7 @@ class Container extends React.Component {
 					visible={this.state.showDocumentEditor}
 					title={`${this.state.editingDocument.id && '编辑' || '添加'}凭证`}
 					onOk={this.handleOk}
+					maskClosable={false}
 					onCancel={this.handleCancel}
 					footer={[
 						<Button key="back" onClick={this.handleCancel}>取消</Button>,
