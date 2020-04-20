@@ -26,9 +26,23 @@ class App extends React.Component {
     systemInfo: {}
   }
 
+  routerPath = [
+    { url: '/documents', key: "1" },
+    { url: '/trackers', key: "3" },
+    { url: '/projects', key: "3_1" },
+    { url: '/financial-sources', key: "3_2" },
+    { url: '/exports', key: "3_3" },
+  ]
+
+  calculatePathKey(url) {
+    const matchPath = this.routerPath.find(rp => this.props.history.location.pathname.startsWith(rp.url))
+    if (!matchPath) return []
+    else return [matchPath.key]
+  }
+
   async componentDidMount() {
     const systemInfo = await Request.getSystemInfo()
-    systemInfo.env =Translator.env2HumanReadable(systemInfo.env)
+    systemInfo.env = Translator.env2HumanReadable(systemInfo.env)
     this.setState({
       systemInfo
     })
@@ -47,8 +61,8 @@ class App extends React.Component {
             float: "left"
           }}></div>
           <span className="App-header">内部财务管理系统</span>
-          <span className="App-env">后端：<strong className={this.state.systemInfo.env === '环境错误'? 'App-error': ''}>{this.state.systemInfo.env}</strong></span>
-          <span className="App-env">前端：<strong className={config.env === '环境错误'? 'App-error': ''}>{config.env}</strong></span>
+          <span className="App-env">后端：<strong className={this.state.systemInfo.env === '环境错误' ? 'App-error' : ''}>{this.state.systemInfo.env}</strong></span>
+          <span className="App-env">前端：<strong className={config.env === '环境错误' ? 'App-error' : ''}>{config.env}</strong></span>
         </Header>
         <Layout>
           <Sider
@@ -63,8 +77,9 @@ class App extends React.Component {
           >
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1', 'sub2', 'sub3']}
+              defaultSelectedKeys={['1']}
+              selectedKeys={this.calculatePathKey()}
               style={{ height: '100%', borderRight: 0 }}
             >
               <SubMenu
@@ -101,10 +116,10 @@ class App extends React.Component {
               </SubMenu>
             </Menu>
           </Sider>
-          <Layout style={{ 
-            padding: '24px' ,
+          <Layout style={{
+            padding: '24px',
             height: 'calc(100vh - 64px)',
-            }}>
+          }}>
             <Content
               style={{
                 background: '#fff',
