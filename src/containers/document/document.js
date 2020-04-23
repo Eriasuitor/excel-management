@@ -20,7 +20,7 @@ class Container extends React.Component {
 		counter: 1,
 		pagination: {
 			current: 1,
-			pageSize: 10,
+			pageSize: 20,
 			total: 0,
 		},
 		financialSources: [],
