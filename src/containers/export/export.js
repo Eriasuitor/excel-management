@@ -81,7 +81,7 @@ class Container extends React.Component {
 					name="filename"
 					label="文件名称"
 					key="filename"
-					rules={[{ required: true, message: '请选择项目' }]}
+					rules={[{ required: true, message: '请输入导出文件名称' }]}
 				>
 					<Input></Input>
 				</Form.Item>

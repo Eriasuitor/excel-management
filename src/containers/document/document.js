@@ -188,9 +188,11 @@ class Container extends React.Component {
 			} else {
 				await Request.addDocument(document)
 			}
-			this.queryDocuments()
+			this.queryDocuments({page: 1})
+			this.state.pagination.page = 1
 			this.setState({
-				showDocumentEditor: false
+				showDocumentEditor: false,
+				pagination: this.state.pagination
 			})
 		} catch (error) {
 			console.log(error)
@@ -207,7 +209,7 @@ class Container extends React.Component {
 				loading: true
 			})
 			const { pageSize } = this.state.pagination
-			const { rows, count } = await Request.queryDocuments({ pageSize, ...query })
+			const { rows, count } = await Request.queryDocuments({ pageSize, ...query, orderBy: 'id', isDesc: true })
 			this.state.pagination.total = count
 			this.setState({
 				documents: rows,
